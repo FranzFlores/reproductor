@@ -1,0 +1,36 @@
+{
+  "name": "reproductor",
+  "version": "1.0.0",
+  "description": "Reproductor de Musica Web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FranzFlores/reproductor.git"
+  },
+  "keywords": [
+    "Reproductor"
+  ],
+  "author": "Franz Flores, Alberto Ortega, Luis Villalta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FranzFlores/reproductor/issues"
+  },
+  "homepage": "https://github.com/FranzFlores/reproductor#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.16.4",
+    "jwt-simple": "^0.5.5",
+    "moment": "^2.23.0",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "sequelize": "^4.42.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
