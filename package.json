@@ -4,7 +4,7 @@
   "description": "Reproductor de Musica Web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server/bin/www"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "moment": "^2.23.0",
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
+    "mysql2": "^1.6.4",
     "sequelize": "^4.42.0"
   },
   "devDependencies": {

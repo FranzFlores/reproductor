@@ -1,41 +1,31 @@
-const express = require('express');
-const errors = require('http-errors');
-const path = require('path');
-const logger = require('morgan');
-const app = express();
+'use strict'
+var express = require('express');
+var bodyParser = require('body-parser');
+const {db} = require('./database');
+var app = express();
 
-// Configuraciones
-const { db } = require('./database');
+/*Configuraciones*/
+//Puerto de la base de datos
+app.set('port',process.env.PORT||3000);
 
-// Middlewares
-app.use(logger('dev'));
+
+//Cargar Rutas
+var user_router = require('./routers/user');
+
+//Sirve para convertir las peticiones q nos vienen a JSON
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-//app.use(express.static(path.join(__dirname, '../ui/public')));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
-Routes
-app.use('/', require('./routes/site.routes'));
-app.use('/api/role', require('./routes/role.routes'));
-app.use('/api/person', require('./routes/person.routes'));
 
-View engine set-up
-app.set('views', path.join(__dirname, '../ui/views'));
-app.set('view engine', 'ejs');
+//configurar cabeceras HTTP
 
-// Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(errors(404));
+
+//rutas base
+app.use('/api',user_router);
+
+app.listen(app.get('port'), () => {
+    console.log('Servidor corriendo en el puerto', app.get('port'));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});
-
-module.exports = app;
+module.exports = app; //Se puede usar express en otras ficheros q incluyan app
