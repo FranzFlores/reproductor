@@ -12,6 +12,7 @@ const Album = db.define('Album',{
   title:Sequelize.STRING,
   description: Sequelize.STRING,
   year: Sequelize.INTEGER,
+  status: Sequelize.STRING,
   image: Sequelize.STRING,
   external_id: { type: Sequelize.STRING, defaultValue: Sequelize.UUIDV4 }
   }
@@ -21,6 +22,7 @@ const Album = db.define('Album',{
 });
 
 Album.belongsTo(Artist,{foreignKey: 'idArtist'});
+Artist.hasMany(Album,{foreignKey: 'idArtist'});
 Album.sync();
 
 module.exports = Album;

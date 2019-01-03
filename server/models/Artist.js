@@ -8,9 +8,10 @@ const Artist = db.define('Artist',{
     primaryKey: true,
     autoIncrement:true
   },
-  firstName:Sequelize.STRING,
+  name:Sequelize.STRING,
   description: Sequelize.STRING,
   image: Sequelize.STRING,
+  status: Sequelize.STRING,
   external_id: { type: Sequelize.STRING, defaultValue: Sequelize.UUIDV4 }
   },{
     createdAt:'date_create',
@@ -18,5 +19,4 @@ const Artist = db.define('Artist',{
 });
 
 Artist.sync();
-
 module.exports = Artist;
