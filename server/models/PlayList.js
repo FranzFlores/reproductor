@@ -17,8 +17,7 @@ const PlayList = db.define('PlayList',{
   createdAt:'date_create',
   updatedAt:'date_update'
 });
-
-PlayList.belongsTo(User, { foreignKey: 'idUser' });
+User.hasMany(PlayList, {foreignKey: 'idUser'});
 PlayList.sync();
 
 module.exports = PlayList;
