@@ -2,6 +2,7 @@
 const Sequelize = require('sequelize');
 const db = require('../database');
 const Album = require('./Album');
+const PlayList = require('./PlayList');
 
 const Song = db.define('Song',{
   idSong:{
@@ -21,6 +22,8 @@ const Song = db.define('Song',{
 });
 
 Song.belongsTo(Album,{foreignKey: 'idAlbum'});
+Song.belongsTo(PlayList,{foreignKey: 'idPlayLists'});
+
 Song.sync();
 
 module.exports = Song;
