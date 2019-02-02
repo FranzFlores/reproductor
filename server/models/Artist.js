@@ -1,22 +1,17 @@
-'use strict'
-const Sequelize = require('sequelize');
-const db = require('../database');
-
-const Artist = db.define('Artist',{
-  idArtist:{
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement:true
-  },
-  name:Sequelize.STRING,
-  description: Sequelize.STRING,
-  image: Sequelize.STRING,
-  status: Sequelize.STRING,
-  external_id: { type: Sequelize.STRING, defaultValue: Sequelize.UUIDV4 }
-  },{
-    createdAt:'date_create',
-    updatedAt:'date_update'
-});
-
-Artist.sync();
-module.exports = Artist;
+module.exports = (sequelize, type) => {
+  return sequelize.define('artist', {
+    id:{
+      type: type.INTEGER,
+      primaryKey: true,
+      autoIncrement:true
+    },
+    name:type.STRING,
+    description: type.STRING,
+    image: type.STRING,
+    status: type.STRING,
+    external_id: { type: type.STRING, defaultValue: type.UUIDV4 }
+    },{
+      createdAt:'date_create',
+      updatedAt:'date_update'
+    });
+}
