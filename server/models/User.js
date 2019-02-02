@@ -1,27 +1,21 @@
 'use strict'
-const Sequelize = require('sequelize');
-const db = require('../database');
-const Role = require('./Role');
+module.exports = (sequelize, type) => {
+    return sequelize.define('user', {
+      id:{
+        type: type.INTEGER,
+        primaryKey: true,
+        autoIncrement:true
+      },
+      firstName:type.STRING,
+      lastName: type.STRING,
+      userName: type.STRING,
+      email: type.STRING,
+      password: type.STRING,
+      image: type.STRING,
+      external_id: { type: type.STRING, defaultValue: type.UUIDV4 }
+      },{
+        createdAt:'date_create',
+        updatedAt:'date_update'
+    });
+}
 
-const User = db.define('User',{
-  idUser:{
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement:true
-  },
-  firstName:Sequelize.STRING,
-  lastName: Sequelize.STRING,
-  email: Sequelize.STRING,
-  password: Sequelize.STRING,
-  userName: Sequelize.STRING,
-  external_id: { type: Sequelize.STRING, defaultValue: Sequelize.UUIDV4 }
-  },{
-    createdAt:'date_create',
-    updatedAt:'date_update'
-});
-
-User.belongsTo(Role, { foreignKey: 'idRole' });
-
-User.sync();
-
-module.exports = User;
