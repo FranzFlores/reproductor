@@ -20,10 +20,9 @@ const Song = db.define('Song',{
   createdAt:'date_create',
   updatedAt:'date_update'
 });
+PlayList.hasMany(Song, {foreignKey: 'idPlayList'});
+Album.hasMany(Song, {foreignKey: 'idAlbum'});
 
-Song.belongsTo(Album,{foreignKey: 'idAlbum'});
-Song.belongsTo(PlayList,{foreignKey: 'idPlayLists'});
 
-Song.sync();
 
 module.exports = Song;

@@ -13,7 +13,7 @@ const User = db.define('User',{
   lastName: Sequelize.STRING,
   email: Sequelize.STRING,
   password: Sequelize.STRING,
-  birthdate: Sequelize.DATEONLY,
+  userName: Sequelize.STRING,
   external_id: { type: Sequelize.STRING, defaultValue: Sequelize.UUIDV4 }
   },{
     createdAt:'date_create',
@@ -21,6 +21,7 @@ const User = db.define('User',{
 });
 
 User.belongsTo(Role, { foreignKey: 'idRole' });
+
 User.sync();
 
 module.exports = User;

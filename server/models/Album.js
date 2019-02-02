@@ -21,7 +21,7 @@ const Album = db.define('Album',{
   updatedAt:'date_update'
 });
 
-Album.belongsTo(Artist,{foreignKey: 'idArtist'});
+
 Artist.hasMany(Album,{foreignKey: 'idArtist'});
 Album.sync();
 
