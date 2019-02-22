@@ -7,7 +7,7 @@ const SongModel = require('./server/models/song')
 const RoleModel = require('./server/models/role')
 
 //Conexion a la base de datos
-const sequelize = new Sequelize('reproductor1', 'root', 'root', {
+const sequelize = new Sequelize('reproductor', 'root', 'root', {
   host: 'localhost',
   dialect: 'mysql',
   operatorsAliases: false
