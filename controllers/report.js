@@ -8,7 +8,6 @@ var path = require('path');
 const ReportController = {};
 
 ReportController.generatePdf = (req, res) => {
-    // Las 25 Canciones más escuchadas
     PlayList.findOne({
         where: { title: 'Las 25 Canciones más escuchadas' }
     }).then((playlist) => {
@@ -33,7 +32,7 @@ ReportController.generatePdf = (req, res) => {
                     footer: {
                         height: "22mm"
                     },
-                    base: "/Users/franzandresflores/Documents/ProyectosNode/reproductor/public"
+                    base: "/Users/franzandresflores/Desktop/reproductor/public"
                 };
                 pdf.create(content, options).toFile('./report.pdf', (err, resp) => {
                     if (err) {
@@ -52,12 +51,12 @@ ReportController.generatePdf = (req, res) => {
 };
 
 ReportController.getPdfFile = (req, res) => {
-    var path_file = '/Users/franzandresflores/Documents/ProyectosNode/reproductor/report.pdf';
+    var path_file = '/Users/franzandresflores/Desktop/reproductor/report.pdf';
     fs.exists(path_file, function (exists) {
       if (exists) {
         res.sendFile(path.resolve(path_file));
       } else {
-        res.status(200).send({ message: "No existe la imagen" });
+        res.status(200).send({ message: "No existe el reporte" });
       }
     });
   };

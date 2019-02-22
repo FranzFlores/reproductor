@@ -957,7 +957,7 @@
 											error: function (jqXHR, textStatus, errorThrown) { }
 										});
 										e.preventDefault();
-										gridWrapper.innerHTML = `{{>playlist/addSongPlayList}}`;
+										gridWrapper.innerHTML = `{{>playlist/addSongPlaylist}}`;
 									});
 								}, error: function (jqXHR, textStatus, errorThrown) { }
 							});
@@ -1008,7 +1008,7 @@
 
 		function appendMessage(payload) {
 			console.log(payload);
-			var notification = '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+			var notification = '<div class="alert alert-warning alert-dismissible fade show mx-auto col-md-4 mt-2" role="alert">';
 			notification += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
 			notification += '<span aria-hidden="true">&times;</span>';
 			notification += '</button>';

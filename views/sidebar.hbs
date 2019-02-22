@@ -1,0 +1,150 @@
+<header class="bp-header cf">
+	<div class="dummy-logo">
+		<i class="fas fa-headphones fa-5x"></i>
+		<h2 class="dummy-heading">Aplicacion Musical</h2>
+	</div>
+	<div class="bp-header__main">
+	</div>
+</header>
+<button class="action action--open" aria-label="Open Menu"><span class="icon icon--menu"></span></button>
+<nav id="ml-menu" class="menu">
+	<button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
+	<div class="menu__wrap">
+		<ul data-menu="main" class="menu__level" tabindex="-1" role="menu" aria-label="All">
+
+			{{!-- Artista --}}
+			{{#ifEquals user.role 'Usuario'}}
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-microphone"></i> &nbsp;Artistas</a></li>
+			{{else}}
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#" data-submenu="submenu-1"
+					aria-owns="submenu-1"><i class="fas fa-microphone"></i> &nbsp;Artistas</a></li>
+			{{/ifEquals}}
+
+			{{!-- Album --}}
+			{{#ifEquals user.role 'Usuario'}}
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-compact-disc"></i>&nbsp;Álbumes</a></li>
+			{{else}}
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#" data-submenu="submenu-2"
+					aria-owns="submenu-2"><i class="fas fa-compact-disc"></i>&nbsp;Álbumes</a></li>
+			{{/ifEquals}}
+
+			{{!-- Cancion --}}
+			{{#ifEquals user.role 'Usuario'}}
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-guitar"></i>&nbsp;Canciones</a></li>
+			{{else}}
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#" data-submenu="submenu-3"
+					aria-owns="submenu-3"><i class="fas fa-guitar"></i>&nbsp;Canciones</a></li>
+			{{/ifEquals}}
+
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#" data-submenu="submenu-4"
+					aria-owns="submenu-4"><i class="fas fa-play"></i>&nbsp;Playlists</a></li>
+
+			<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-5" aria-owns="submenu-5"
+					href="#"><i class="fas fa-user"></i>&nbsp;Usuario</a></li>
+			<a href="/logout" class="btn btn-success text-center btn-block">Cerrar Sesión</a>
+		</ul>
+
+		<!-- Submenu Artista -->
+		<ul data-menu="submenu-1" id="submenu-1" class="menu__level" tabindex="-1" role="menu" aria-label="Artist">
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-list-ul"></i>&nbsp;Todos los Artistas</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="far fa-edit"></i>&nbsp;Edición de Artista</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-plus-circle"></i>&nbsp;Agregar Artista</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-image"></i>&nbsp;Agregar Imagen Artista</a></li>
+		</ul>
+
+		<!-- Submenu Album -->
+		<ul data-menu="submenu-2" id="submenu-2" class="menu__level" tabindex="-1" role="menu" aria-label="Album">
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-list-ul"></i>&nbsp;Lista de Albums</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-plus-circle"></i>&nbsp;Agregar Album</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-image"></i>&nbsp;Agregar Imagen de Album</a></li>
+		</ul>
+
+		<!-- Submenu Cancion -->
+		<ul data-menu="submenu-3" id="submenu-3" class="menu__level" tabindex="-1" role="menu" aria-label="Song">
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-list-ul"></i>&nbsp;Todas las Canciones</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-plus-circle"></i>&nbsp;Agregar Canción</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-play"></i></i>&nbsp;Agregar Fichero de Audio</a></li>
+		</ul>
+		<!-- Submenu PlayList -->
+		<ul data-menu="submenu-4" id="submenu-4" class="menu__level" tabindex="-1" role="menu" aria-label="PlayList">
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-plus-circle"></i>&nbsp;Crear PlayList</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-list-ul"></i>&nbsp;Ver mis PlayList</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fab fa-wpexplorer"></i>&nbsp;Explorar</a></li>
+			{{#ifEquals user.role 'Administrador'}}
+			<a href="#" id="ranking" class="btn btn-success text-center btn-block">Generar Playlist Ranking</a>
+			<a href="http://localhost:4000/api/reportView" id="report"  target="_blank" class="btn btn-primary text-center btn-block">Generar Reporte</a>
+			{{/ifEquals}}
+		</ul>
+		<!-- Submenu Usuario -->
+		<ul data-menu="submenu-5" id="submenu-5" class="menu__level" tabindex="-1" role="menu" aria-label="User">
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="fas fa-user-edit"></i>&nbsp;Editar Información</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="far fa-edit"></i>&nbsp; Cambiar Contraseña</a></li>
+			<li class="menu__item" role="menuitem"><a class="menu__link" href="#">
+					<i class="far fa-image"></i>&nbsp; Agregar Foto de Perfil</i></a></li>
+		</ul>
+	</div>
+</nav>
+<div class="content">
+	<!-- Ajax loaded content here -->
+	<div class="row">
+		<div class="col-md-3">
+			<img class="img-thumbnail mx-auto" src="http://localhost:4000/get-image-user/{{user.image}}" alt=""
+				height="250px">
+			<h4>{{user.name}}</h4>
+			<h5>{{user.userName}}</h5>
+		</div>
+		<div class="col-md-9">
+			<h1>Bienvenido a Magic Music</h1>
+			<p>Encuentra la mejor música disponible para nuestros usuarios</p>
+
+			<div id="images" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="https://www.pilardetodos.com/media/k2/items/cache/1ec2a12723aafca982d5b879ea870cbd_XL.jpg"
+							class="d-block mx-auto" height="500px">
+						<div class="carousel-caption d-none d-md-block" style="background:rgba(0, 0, 0, 0.34);">
+							<h5>Disfruta del Mejor Contenido</h5>
+							<p>Encontrarás los mejores Artistas y Canciones</p>
+						</div>
+					</div>
+					{{#each list}}
+					<div class="carousel-item">
+						<img src="http://localhost:4000/api/get-image-artist/{{image}}" class="d-block mx-auto"
+							height="500px">
+						<div class="carousel-caption d-none d-md-block" style="background:rgba(0, 0, 0, 0.34);">
+							<h5>{{name}}</h5>
+							<p>{{description}}</p>
+						</div>
+					</div>
+					{{/each}}
+				</div>
+				<a class="carousel-control-prev" href="#images" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#images" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

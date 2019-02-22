@@ -70,7 +70,7 @@ PlayListController.createPlaylistRanking = (req,res)=>{
     limit : 25
   }).then((list) => {
     PlayList.findOne({
-      where: { external_id: 'e1ce0a49-ed66-429b-abd9-4f052cd6970f' }
+      where: { external_id: '508104d0-cf74-4a9d-ad7d-42a0754f3ae0' }
     }).then((playListResult) => {
       playListResult.setSongs(list);
       req.flash('success', 'Se ha agregado correctamente las canciones');
