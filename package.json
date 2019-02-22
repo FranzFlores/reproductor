@@ -4,7 +4,7 @@
   "description": "Reproductor de Musica Web",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/bin/www"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",

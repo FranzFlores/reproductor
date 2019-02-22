@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize')
-const UserModel = require('./server/models/user')
-const AlbumModel = require('./server/models/album')
-const ArtistModel = require('./server/models/artist')
-const PlayListModel = require('./server/models/playlist')
-const SongModel = require('./server/models/song')
-const RoleModel = require('./server/models/role')
+const UserModel = require('./models/User')
+const AlbumModel = require('./models/Album')
+const ArtistModel = require('./models/Artist')
+const PlayListModel = require('./models/PlayList')
+const SongModel = require('./models/Song')
+const RoleModel = require('./models/Role')
 
 //Conexion a la base de datos
 const sequelize = new Sequelize('reproductor', 'root', 'root', {
