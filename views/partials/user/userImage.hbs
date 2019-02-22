@@ -1,0 +1,12 @@
+ <h1 class="mx-auto">Modificar Foto de Perfil</h1>
+    <form action="/upload-image-user/{{user.external_id}}" enctype="multipart/form-data" method="POST" id="uploadImage">
+        <div class="form-group">
+            <label for="image">Selecciona la Imagen que deseas subir</label>
+            <input type="file" name="image" placeholder="Nombres" class="form-control" >
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success btn-block">
+                Subir Imagen
+            </button>
+        </div>
+    </form>

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	{{!-- Bootstrap --}}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="shortcut icon" href="favicon.ico">
+	<!-- food icons -->
+	<link rel="stylesheet" type="text/css" href="css/organicfoodicons.css" />
+	<!-- demo styles -->
+	<link rel="stylesheet" type="text/css" href="css/demo.css" />
+	<!-- menu styles -->
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+	<script src="js/modernizr-custom.js"></script>
+	<title>Reproductor Musical</title>
+</head>
+
+<body>
+	<div id="messages"></div>
+	{{>message}}
+	{{{ body }}}
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+	<script src="js/classie.js"></script>
+	<script src="js/dummydata.js"></script>
+	<script src="js/main.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery.validate.min.js"></script>
+	<script>
+		/*---------------------Validación de los formularios Usuario------------------*/
+		$().ready(function () {
+			$("#ranking").click(function () {
+				//Generar PLaylist Ranking
+				$.ajax({
+					type: 'POST',
+					url: "http://localhost:4000/api/ranking",
+					success: function (data, textStatus, jqXHR) { },
+					error: function (jqXHR, textStatus, errorThrown) {
+					}
+				});
+			});
+			//Generar Reporte
+			$("#report").click(function () {
+				$.ajax({
+					type: 'POST',
+					url: "http://localhost:4000/api/report",
+					success: function (data, textStatus, jqXHR) {
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+					}
+				});
+			});
+			//Registrar Usuario
+			$('#signup').validate({
+				rules: {
+					firstName: "required",
+					lastName: "required",
+					user: "required",
+					email: "required",
+					password: "required"
+				},
+				messages: {
+					email: "Campo Obligatorio",
+					password: "Campo Obligatorio",
+					firstName: "Campo Obligatorio",
+					lastName: "Campo Obligatorio",
+					user: "Campo Obligatorio",
+				},
+				errorElement: "span",
+				errorPlacement: function (error, element) {
+					error.addClass('text-danger');
+					error.insertAfter(element);
+				}
+			});
+			//Inicio Sesión
+			$('#signin').validate({
+				rules: {
+					email: "required",
+					password: "required"
+				},
+				messages: {
+					email: "Campo Obligatorio",
+					password: "Campo Obligatorio"
+				},
+				errorElement: "span",
+				errorPlacement: function (error, element) {
+					error.addClass('text-danger');
+					error.insertAfter(element);
+				}
+			});
+		});
+
+
+		(function () {
+			var menuEl = document.getElementById('ml-menu'),
+				mlmenu = new MLMenu(menuEl, {
+					breadcrumbsCtrl: true,
+					backCtrl: false,
+					onItemClick: loadDummyData
+				});
+			console.log(mlmenu);
+
+			var openMenuCtrl = document.querySelector('.action--open'),
+				closeMenuCtrl = document.querySelector('.action--close');
+
+			openMenuCtrl.addEventListener('click', openMenu);
+			closeMenuCtrl.addEventListener('click', closeMenu);
+
+			function openMenu() {
+				classie.add(menuEl, 'menu--open');
+				closeMenuCtrl.focus();
+			}
+
+			function closeMenu() {
+				classie.remove(menuEl, 'menu--open');
+				openMenuCtrl.focus();
+			}
+
+			var gridWrapper = document.querySelector('.content');
+			function loadDummyData(ev, itemName) {
+				ev.preventDefault();
+				closeMenu();
+				gridWrapper.innerHTML = '';
+				classie.add(gridWrapper, 'content--loading');
+				setTimeout(function () {
+
+					/*---------------------Validación de los formularios------------------*/
+					$().ready(function () {
+						//Actualizar Informacion del Usuario
+						$('#updateUser').validate({
+							rules: {
+								firstName: "required",
+								lastName: "required",
+								user: "required",
+								email: "required",
+								password: "required"
+							},
+							messages: {
+								email: "Campo Obligatorio",
+								password: "Campo Obligatorio",
+								firstName: "Campo Obligatorio",
+								lastName: "Campo Obligatorio",
+								user: "Campo Obligatorio",
+							},
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Actualizar Contraseña
+						$('#updatePassword').validate({
+							rules: {
+								oldPassword: "required",
+								newPassword: "required"
+							},
+							messages: {
+								oldPassword: "Campo Obligatorio",
+								newPassword: "Campo Obligatorio"
+							},
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Subir Imagen de Usuario
+						$('#uploadImage').validate({
+							rules: { image: "required" },
+							messages: { image: "Campo Obligatorio" },
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Agregar Artista
+						$('.addArtist').validate({
+							rules: {
+								name: "required",
+								description: "required"
+							},
+							messages: {
+								name: "Campo Obligatorio",
+								description: "Campo Obligatorio"
+							},
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Agregar Album
+						$('#addAlbum').validate({
+							rules: {
+								title: "required",
+								description: "required",
+								year: {
+									required: true,
+									number: true
+								}
+							},
+							messages: {
+								title: "Campo Obligatorio",
+								description: "Campo Obligatorio",
+								year: "Campo Obligatorio y Numérico"
+							},
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Agregar Cancion
+						$('#addSong').validate({
+							rules: {
+								title: "required",
+								number: {
+									required: true,
+									number: true
+								}
+							},
+							messages: {
+								title: "Campo Obligatorio",
+								number: "Campo Obligatorio y Numérico"
+							},
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Subir Fichero de Audio
+						$('#uploadFile').validate({
+							rules: { file: "required" },
+							messages: { file: "Campo Obligatorio" },
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+						//Agregar Playlist
+						$('#addPlaylist').validate({
+							rules: {
+								title: "required",
+								description: "required"
+							},
+							messages: {
+								title: "Campo Obligatorio",
+								description: "Campo Obligatorio"
+							},
+							errorElement: "span",
+							errorPlacement: function (error, element) {
+								error.addClass('text-danger');
+								error.insertAfter(element);
+							}
+						});
+					});
+
+					var aux = itemName.split('&nbsp;');
+					var item = aux[1].trim();
+
+					classie.remove(gridWrapper, 'content--loading');
+
+					//Vistas de Usuario
+					if (item.localeCompare('Editar Información') == 0) {
+						gridWrapper.innerHTML = `{{>user/userInfo}}`;
+					}
+					if (item.localeCompare('Cambiar Contraseña') == 0) {
+						gridWrapper.innerHTML = `{{>user/userPassword}}`;
+					}
+					if (item.localeCompare('Agregar Foto de Perfil') == 0) {
+						gridWrapper.innerHTML = `{{>user/userImage}}`;
+					}
+
+					//Artistas
+					if (item.localeCompare('Artistas') == 0 || item.localeCompare('Todos los Artistas') == 0) {
+						gridWrapper.innerHTML = `{{>artist/artist}}`;
+					}
+					if (item.localeCompare('Edición de Artista') == 0) {
+						gridWrapper.innerHTML = `{{>artist/listArtist}}`;
+					}
+					if (item.localeCompare('Agregar Artista') == 0) {
+						gridWrapper.innerHTML = `{{>artist/addArtist}}`;
+					}
+					if (item.localeCompare('Agregar Imagen Artista') == 0) {
+						gridWrapper.innerHTML = `{{>artist/addImageArtist}}`;
+					}
+
+					if ((item.localeCompare('Agregar Album') == 0) || (item.localeCompare('Agregar Imagen Artista') == 0)
+						|| (item.localeCompare('Album') == 0)
+						|| (item.localeCompare('Todos los Artistas') == 0)
+						|| (item.localeCompare('Edición de Artista') == 0)
+						|| (item.localeCompare('Artistas') == 0)) {
+						$(document).ready(function () {
+							var url = "http://localhost:4000/api/artists";
+							$.ajax({
+								type: 'GET',
+								dataType: 'json',
+								url: url,
+								success: function (data, textStatus, jqXHR) {
+									console.log(data);
+									var html = "";
+									var html1 = "";
+									var html2 = "";
+									var html3 = "";
+									$.each(data, function (i, item) {
+										html += `<a data-external="` + item.external_id + `" href="#" class="list-group-item list-group-item-action artist">
+													<img class="rounded-circle" src="http://localhost:4000/api/get-image-artist/`+ item.image + `" height="30px" width="30px" alt="">&nbsp;` + item.name + `</a>`;
+										html1 += "<option value='" + item.id + "'>" + item.name + "</option>";
+										html2 += "<option value='" + item.external_id + "'>" + item.name + "</option>";
+										html3 += `<div class="col-md-4 mb-3">
+													<div class="card mx-auto border-0" style="background:#2a2b30;" >
+													{{#ifEquals user.role 'Usuario'}}
+														<img class="card-img-top mx-auto" style="height:250px; width:250px" src="http://localhost:4000/api/get-image-artist/`+ item.image + `" alt="">
+													{{ else}}
+													<a href="#" class="mx-auto" data-external="`+ item.external_id + `" data-toggle="modal" data-target="#id` + item.external_id + `">
+														<img class="card-img-top" style="height:250px; width:250px" src="http://localhost:4000/api/get-image-artist/`+ item.image + `" alt=""></a>
+													{{/ ifEquals}}
+														<div class="card-body mx-auto">
+														<form action="/api/deleteArtist/`+ item.external_id + `" method="POST">
+														<input name="status" value="false" hidden>
+														<input name="artist" value="`+ item.id + `" hidden>
+														<h5 class="card-title text-center">` + item.name + `</h5>
+														<div class="buttons">
+														<button type="button" data-toggle="modal" data-target="#id` + item.external_id + `" data-external="` + item.external_id + `" class="btn btn-success">Editar</button>
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+														</div>
+														</form>
+													</div>
+													</div>
+
+													<div class="modal fade" id="id`+ item.external_id + `" tabindex="-1" role="dialog" aria-hidden="true">
+														<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h2 class="modal-title">Editar Artista</h2>
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<form action="/api/updateArtist/`+ item.external_id + `" method="POST" class="addArtist">
+																		<div class="form-group">
+																			<input type="text" value="`+ item.name + `" name="name" placeholder="Nombre del Artista" class="form-control">
+																		</div>
+																		<div class="form-group">
+																			<textarea name="description" placeholder="Descripción del Artista" cols="30" rows="10"
+																				class="form-control">`+ item.description + `</textarea>
+																		</div>													
+																	<div class="modal-footer">
+																	<button type="submit" class="btn btn-success">Editar</button>
+																	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+																	</div>
+																	</form>
+																</div>		
+															</div>
+														</div>
+													</div>
+													</div>`;
+									});
+
+									$("#listArtist").html(html);
+									$("#list").html(html3);
+									$(".artist").click(function (e) {
+										var external = $(this).attr('data-external');
+										var url = "http://localhost:4000/api/artist/" + external;
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+												console.log(data);
+												$("#arstistName").text(data.name);
+												var albumArtist = "";
+
+												var list = [];
+												$.each(data.albums, function (i, item) {
+													var songAlbum = "";
+													albumArtist += `<img src="http://localhost:4000/api/get-image-album/` + item.image + `" class="image" width="45px" height="45px" alt="">
+																	<h3 class="title">`+ item.title + `</h3>
+																	<p class="year text-right">`+ item.year + `</p>
+																	<hr>
+																	<table class="table table-hover">
+																		<tbody class="bodyTable">`;
+													$.each(item.songs, function (j, item) {
+														songAlbum += `<tr data-external="` + item.external_id + `" class="song">
+																		<th scope="col">`+ item.number + `</th>
+																		<td>`+ item.title + `</td>
+																	 </tr>`;
+													});
+													albumArtist += songAlbum + `</tbody></table>`;
+												});
+												$(".body").html(albumArtist);
+												$(".song").dblclick(function (e) {
+													var external = $(this).attr('data-external');
+													var url = "http://localhost:4000/api/song/" + external;
+													$.ajax({
+														type: 'GET',
+														dataType: 'json',
+														url: url,
+														success: function (data, textStatus, jqXHR) {
+															$(".titlePlayer").text(data.title);
+															$("#player").attr('src', "http://localhost:4000/api/get-song-file/" + data.file);
+															$(".playerImage").attr('src', "http://localhost:4000/api/get-image-album/" + data.album.image);
+															var url1 = "http://localhost:4000/api/listen/" + data.external_id;
+															$.ajax({
+																type: 'POST',
+																url: url1,
+																success: function (data, textStatus, jqXHR) {
+																	console.log(data);
+																}, error: function (jqXHR, textStatus, errorThrown) {
+																	console.log(errorThrown);
+																}
+															});
+														},
+														error: function (jqXHR, textStatus, errorThrown) {
+														}
+													});
+													e.preventDefault();
+												});
+											},
+											error: function (jqXHR, textStatus, errorThrown) { }
+										});
+										e.preventDefault();
+									});
+									$('#listEdit').html(html3);
+									$('#artistImage').html(html2);
+									$('#artistList').html(html1);
+								},
+								error: function (jqXHR, textStatus, errorThrown) { }
+							});
+						});
+					}
+
+					//Albums
+					if ((item.localeCompare('Álbumes') == 0) || (item.localeCompare('Lista de Albums') == 0)) {
+						gridWrapper.innerHTML = `{{>album/listAlbum}}`;
+					}
+					if (item.localeCompare('Agregar Album') == 0) {
+						gridWrapper.innerHTML = `{{>album/addAlbum}}`;
+					}
+					if (item.localeCompare('Agregar Imagen de Album') == 0) {
+						gridWrapper.innerHTML = `{{>album/addImageAlbum}}`;
+					}
+					if ((item.localeCompare('Álbumes') == 0) || (item.localeCompare('Lista de Albums') == 0)
+						|| (item.localeCompare('Agregar Imagen de Album') == 0)
+						|| (item.localeCompare('Agregar Canción') == 0)) {
+
+						$(document).ready(function () {
+
+							var url = "http://localhost:4000/api/albums";
+							$.ajax({
+								type: 'GET',
+								dataType: 'json',
+								url: url,
+								success: function (data, textStatus, jqXHR) {
+									console.log(data);
+									var html = "";
+									var html1 = "";
+									var html2 = '';
+									$.each(data, function (i, item) {
+										html += "<option value='" + item.external_id + "'>" + item.title + "</option>";
+										html1 += "<option value='" + item.id + "'>" + item.title + "</option>";
+										html2 += `<div class="col-md-4 mb-3">
+										<div class="card mx-auto border-0" style="background:#2a2b30;" >
+												{{#ifEquals user.role 'Administrador'}}
+												<img style="height:250px; width:250px" class="card-img-top mx-auto"
+														src="http://localhost:4000/api/get-image-album/`+ item.image + `" alt="">
+												<div class="card-body mx-auto">
+														<form action="/api/deleteAlbum/`+ item.external_id + `" method="POST">
+														<input name="status" value="false" hidden>
+														<input name="album" value="`+ item.id + `" hidden>
+														<h5 class="card-title text-center">` + item.title + `</h5>
+														<div class="buttons">
+														<button type="button" data-toggle="modal" data-target="#id` + item.external_id + `" data-external="` + item.external_id + `" class="btn btn-success">Editar</button>
+														<button type="submit" class="btn btn-danger">Eliminar</button>
+														</div>
+														</form>
+												</div>
+												{{else}}
+												<a href="#" data-external="`+ item.external_id + `" class="mx-auto information">
+												<img style="height:250px; width:250px" class="card-img-top"
+														src="http://localhost:4000/api/get-image-album/`+ item.image + `" alt="">
+												</a>
+												<div class="card-body mx-auto">
+														<h5 class="card-title text-center">` + item.title + `</h5>
+												</div>
+												{{/ifEquals}}
+										</div>
+
+										<div class="modal fade" id="id`+ item.external_id + `" tabindex="-1" role="dialog" aria-hidden="true">
+											<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+												<div class="modal-content">
+
+													<div class="modal-header">
+														<h2 class="modal-title">Editar Album</h2>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<form action="/api/updateAlbum/`+ item.external_id + `" method="POST" role="form">
+													<div class="modal-body">
+														<div class="form-group">
+															<input type="text" name="title" value="`+ item.title + `" class="form-control">
+														</div>
+														<div class="form-group">
+																<textarea name="description" cols="30" rows="10" class="form-control">`+ item.description + `</textarea>
+														</div>
+														<div class="form-group">
+																<input type="text" name="year" class="form-control" value="`+ item.year + `">
+														</div>
+														<div class="modal-footer">
+																<button type="button" data-external="`+ item.external_id + `" class="btn btn-primary information">Ver Información</button>
+																<button type="submit" class="btn btn-success">Editar</button>
+														</div>
+													</div>
+													</form>
+													</div>
+												</div>
+												</div>
+											</div>`;
+									});
+									$("#list").html(html2);
+									$(".information").click(function (e) {
+										$('.modal-backdrop').remove();
+										var external = $(this).attr('data-external');
+										var url = "http://localhost:4000/api/album/" + external;
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+												console.log(data);
+												$("#albumImage").attr('src', 'http://localhost:4000/api/get-image-album/' + data.image);
+												$(".titleAlbum").text(data.title);
+												$(".nameArtist").text(data.artist.name);
+												$(".description").text(data.description);
+												$(".year").text(data.year);
+												var body = "";
+												$.each(data.songs, function (i, item) {
+													body += `<tr data-external="` + item.external_id + `" class="song">
+															<th scope="row">`+ item.number + `</th>
+															<td>`+ item.title + `</td>
+														</tr>`;
+												});
+												$("#tableBody").html(body);
+												$(".song").dblclick(function (e) {
+													var external = $(this).attr('data-external');
+													var url = "http://localhost:4000/api/song/" + external;
+													$.ajax({
+														type: 'GET',
+														dataType: 'json',
+														url: url,
+														success: function (data, textStatus, jqXHR) {
+															$(".titlePlayer").text(data.title);
+															$("#player").attr('src', "http://localhost:4000/api/get-song-file/" + data.file);
+															$(".playerImage").attr('src', "http://localhost:4000/api/get-image-album/" + data.album.image);
+															var url1 = "http://localhost:4000/api/listen/" + data.external_id;
+															$.ajax({
+																type: 'POST',
+																url: url1,
+																success: function (data, textStatus, jqXHR) {
+																	console.log(data);
+																}, error: function (jqXHR, textStatus, errorThrown) {
+																	console.log(errorThrown);
+																}
+															});
+														},
+														error: function (jqXHR, textStatus, errorThrown) {
+														}
+													});
+													e.preventDefault();
+												});
+
+											},
+											error: function (jqXHR, textStatus, errorThrown) { }
+										});
+										gridWrapper.innerHTML = `{{>album/album}}`;
+										e.preventDefault();
+									});
+
+									$('#albumImage').html(html);
+									$('#albumList').html(html1);
+								},
+								error: function (jqXHR, textStatus, errorThrown) { }
+							});
+						});
+					}
+
+					//Canciones
+					if ((item.localeCompare('Canciones') == 0) || (item.localeCompare('Todas las Canciones') == 0)) {
+						gridWrapper.innerHTML = `{{>song/listSong}}`;
+					}
+					if ((item.localeCompare('Agregar Fichero de Audio') == 0) || (item.localeCompare('Canciones') == 0)
+						|| (item.localeCompare('Todas las Canciones') == 0)) {
+						$(document).ready(function () {
+							var url = "http://localhost:4000/api/songs";
+							$.ajax({
+								type: 'GET',
+								dataType: 'json',
+								url: url,
+								success: function (data, textStatus, jqXHR) {
+									console.log(data);
+									var html = "";
+									var html1 = "";
+									$.each(data, function (i, item) {
+										html += "<option value='" + item.external_id + "'>" + item.title + "</option>";
+										html1 += `
+											{{#ifEquals user.role 'Administrador'}}
+												<li class="list-group-item"><p class="h3 titleSong">` + item.title + `</p>
+												<div class="d-flex">
+												  <button data-external="`+ item.external_id + `" type="button" class="btn btn-primary ml-auto play"><i class="fas fa-play"></i></button>
+												  <button type="button" data-toggle="modal" data-target="#id`+ item.external_id + `" class="btn btn-success"><i class="far fa-edit"></i></button>
+												  <button type="button" data-toggle="modal" data-target="#btn`+ item.external_id + `" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+												</div>
+												</li>
+											{{else}}
+												<li class="list-group-item play" data-external="`+ item.external_id + `">
+													<h3 class="text-dark">`+ item.title + `</h3>
+												</li>
+											{{/ifEquals}}	
+
+												<div class="modal fade" id="btn`+ item.external_id + `" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+													<div class="modal-header">
+														<h4 class="text-dark">Eliminar Canción</h5>	
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<form  action="/api/deleteSong/`+ item.external_id + `" method="POST">
+														<p class="text-dark">¿Seguro que desea eliminar la canción?</p>
+														<button type="submit" class="btn btn-success">Confirmar</button>
+														<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+														</form>
+													</div>
+												</div>
+												</div>
+												</div>
+											
+												<div class="modal fade" id="id`+ item.external_id + `" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title">Editar Canción</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<form action="/api/updateSong/`+ item.external_id + `" method="POST">
+															<div class="form-group">
+																<input type="text" name="number" value="`+ item.number + `" class="form-control">
+															</div>
+															<div class="form-group">
+																<input type="text" name="title" value="`+ item.title + `" class="form-control">
+															</div>
+															<div class="form-group">
+																<button class="btn btn-success btn-block">
+																	Editar
+																</button>
+															</div>
+														</form>
+													</div>
+													</div>
+												</div>
+												</div>`;
+									});
+									$(".listSong").html(html1);
+									$('.play').click(function (e) {
+										var external = $(this).attr('data-external');
+										var url = "http://localhost:4000/api/song/" + external;
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+												$(".titlePlayer").text(data.title);
+												$("#player").attr('src', "http://localhost:4000/api/get-song-file/" + data.file);
+												$(".playerImage").attr('src', "http://localhost:4000/api/get-image-album/" + data.album.image);
+												var url = "http://localhost:4000/api/listen/" + data.external_id;
+												$.ajax({
+													type: 'POST',
+													url: url,
+													success: function (data, textStatus, jqXHR) {
+														console.log(data);
+													}, error: function (jqXHR, textStatus, errorThrown) {
+														console.log(errorThrown);
+													}
+												});
+											},
+											error: function (jqXHR, textStatus, errorThrown) {
+											}
+										});
+										e.preventDefault();
+									});
+									$('#songList').html(html);
+								},
+								error: function (jqXHR, textStatus, errorThrown) {
+								}
+							});
+						});
+					}
+
+					if (item.localeCompare('Agregar Canción') == 0) {
+						gridWrapper.innerHTML = `{{>song/addSong}}`;
+					}
+					if (item.localeCompare('Agregar Fichero de Audio') == 0) {
+						gridWrapper.innerHTML = `{{>song/addFileSong}}`;
+					}
+
+					//PlayList
+					if (item.localeCompare('Crear PlayList') == 0) {
+						gridWrapper.innerHTML = `{{>playlist/addPlaylist}}`;
+					}
+					if (item.localeCompare('Ver mis PlayList') == 0) {
+						gridWrapper.innerHTML = `{{>playlist/listPlaylist}}`;
+					}
+					if (item.localeCompare('Explorar') == 0) {
+						gridWrapper.innerHTML = `{{>playlist/explore}}`;
+					}
+
+
+
+
+					if (item.localeCompare('Explorar') == 0) {
+						$(document).ready(function () {
+							var url = "http://localhost:4000/api/playlistAdmin";
+							$.ajax({
+								type: 'GET',
+								dataType: 'json',
+								url: url,
+								success: function (data, textStatus, jqXHR) {
+									var html = "";
+									$.each(data, function (i, item) {
+
+										html += `<div class="col-md-4">
+											<div class="card">
+												<img style="height:261px;" class="card-img-top" src="http://localhost:4000/api/get-image-playList/`+ item.image + `" alt="">
+												<div class="card-body mx-auto">
+													<h5 class="card-title">` + item.title + `</h5>
+													<button  data-external_id="`+ item.external_id + `" type="button" class="btn btn-success btn-block details">Ver Detalles</button>
+												</div>
+											</div>
+										</div>`;
+									});
+									$("#list").html(html);
+									$(".details").click(function (e) {
+										var external = $(this).attr('data-external_id');
+										var url = "http://localhost:4000/api/songsList/" + external;
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+
+												var html = "";
+												gridWrapper.innerHTML = `{{>song/listSong}}`;
+												$.each(data, function (i, item) {
+													html += '<li class="list-group-item text-dark click" data-external="' + item.external_id + '">';
+													html += '<h3 href="#" class="text-dark">' + item.title + '</h3>';
+													html += '</li>';
+												});
+												$(".listSong").html(html);
+												$(".click").dblclick(function (e) {
+													var external = $(this).attr("data-external");
+													var url = "http://localhost:4000/api/song/" + external;
+													$.ajax({
+														type: 'GET',
+														dataType: 'json',
+														url: url,
+														success: function (data, textStatus, jqXHR) {
+															console.log(data);
+															$(".playerImage").attr('src', 'http://localhost:4000/api/get-image-album/' + data.album.image);
+															$(".titlePlayer").text(data.title);
+															$(".playerSong").attr('src', 'http://localhost:4000/api/get-song-file/' + data.file);
+															var url1 = "http://localhost:4000/api/listen/" + data.external_id;
+															$.ajax({
+																type: 'POST',
+																url: url1,
+																success: function (data, textStatus, jqXHR) {
+																	console.log(data);
+																}, error: function (jqXHR, textStatus, errorThrown) {
+																	console.log(errorThrown);
+																}
+															});
+														},
+														error: function (jqXHR, textStatus, errorThrown) { }
+													});
+													e.preventDefault();
+												});
+											},
+											error: function (jqXHR, textStatus, errorThrown) { }
+										});
+										e.preventDefault();
+									});
+								}, error: function (jqXHR, textStatus, errorThrown) { }
+							});
+						});
+					}
+
+					if (item.localeCompare('Ver mis PlayList') == 0) {
+
+						$(document).ready(function () {
+							var playlist = [];
+							var playlistInfo = '';
+							var url = "http://localhost:4000/api/playLists/{{user.id}}";
+							$.ajax({
+								type: 'GET',
+								dataType: 'json',
+								url: url,
+								success: function (data, textStatus, jqXHR) {
+									console.log(data);
+									var html = "";
+									$.each(data, function (i, item) {
+										console.log(item);
+										html += `<div class="col-md-4">
+													<div class="card">
+														<img style="height:261px;" class="card-img-top" src="http://localhost:4000/api/get-image-playList/`+ item.image + `" alt="">
+													<div class="card-body">
+														<h5 class="card-title">` + item.title + `</h5>
+														<button  data-external="`+ item.external_id + `" type="button" class="btn btn-primary edit">Editar</button>
+														<button  data-external_id="`+ item.external_id + `" type="button" class="btn btn-success details" >Ver Detalles</button>
+														</div>
+													</div>
+												</div>`;
+									});
+									$("#list").html(html);
+
+									$(".details").click(function (e) {
+										var external = $(this).attr('data-external_id');
+										var url = "http://localhost:4000/api/songsList/" + external;
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+												console.log(data);
+												var html = "";
+												gridWrapper.innerHTML = `{{>song/listSong}}`;
+												$.each(data, function (i, item) {
+													html += '<li class="list-group-item text-dark click">';
+													html += '<h3 class="click text-dark" data-external=' + item.external_id + '>' + item.title + '</h3>';
+													html += '</li>';
+												});
+												$(".listSong").html(html);
+												$(".click").dblclick(function (e) {
+													var external = $(this).attr("data-external");
+
+													var url = "http://localhost:4000/api/song/" + external;
+													$.ajax({
+														type: 'GET',
+														dataType: 'json',
+														url: url,
+														success: function (data, textStatus, jqXHR) {
+															$(".playerImage").attr('src', 'http://localhost:4000/api/get-image-album/' + data.album.image);
+															$(".titlePlayer").text(data.title);
+															$(".playerSong").attr('src', 'http://localhost:4000/api/get-song-file/' + data.file);
+															var url1 = "http://localhost:4000/api/listen/" + data.external_id;
+															$.ajax({
+																type: 'POST',
+																url: url1,
+																success: function (data, textStatus, jqXHR) {
+																	console.log(data);
+																}, error: function (jqXHR, textStatus, errorThrown) {
+																	console.log(errorThrown);
+																}
+															});
+														},
+														error: function (jqXHR, textStatus, errorThrown) { }
+													});
+													e.preventDefault();
+												});
+											},
+											error: function (jqXHR, textStatus, errorThrown) { }
+										});
+										e.preventDefault();
+									});
+
+									$(".edit").click(function (e) {
+										var external = $(this).attr('data-external');
+										var url = "http://localhost:4000/api/playList/" + external;
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+												$(".title").text(data.title);
+												$(".description").text(data.description);
+												$('.playlist').text(data.id);
+												playlistInfo = $('.playlist').text();
+											},
+											error: function (jqXHR, textStatus, errorThrown) {
+											}
+										});
+
+										var url = "http://localhost:4000/api/songs";
+										$.ajax({
+											type: 'GET',
+											dataType: 'json',
+											url: url,
+											success: function (data, textStatus, jqXHR) {
+												var html1 = "";
+												$.each(data, function (i, item) {
+													html1 += `<li class="list-group-item">` + item.title + `
+															   		<button data-external="`+ item.id + `" type="button" id="add" data-add="true" class="btn btn-primary float-right add">Agregar</button>
+												            </li>`;
+												});
+												$('#playlist').val();
+												$("#listAdd").html(html1);
+
+												$(".add").click(function (e) {
+													var external = $(this).attr('data-external');
+
+													if ($(this).attr('data-add') == 'true') {
+														$(this).removeClass('btn-primary').addClass('btn-danger');
+														$(this).text('Cancelar');
+														$(this).attr('data-add', 'false');
+														playlist.push(external);
+													} else {
+														$(this).removeClass('btn-danger').addClass('btn-primary');
+														$(this).text('Agregar');
+														$(this).attr('data-add', 'true');
+														playlist.pop();
+													}
+													e.preventDefault();
+												});
+
+												$("#save").click(function () {
+													$.ajax({
+														type: "POST",
+														url: "http://localhost:4000/api/addSongs",
+														data: {
+															playlist: playlistInfo,
+															songs: playlist
+														},
+														success: function (data, textStatus, jqXHR) {
+															console.log("Se ha enviado correctamete");
+															location.reload();
+														}, error: function (jqXHR, textStatus, errorThrown) {
+															console.log(errorThrown);
+														}
+													});
+												});
+											},
+											error: function (jqXHR, textStatus, errorThrown) { }
+										});
+										e.preventDefault();
+										gridWrapper.innerHTML = `{{>playlist/addSongPlayList}}`;
+									});
+								}, error: function (jqXHR, textStatus, errorThrown) { }
+							});
+						});
+					}
+				}, 700);
+			}
+		})();
+	</script>
+
+
+	<script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyDCchJ8lh7zJZntpKKsden3wgLDpCCtf8M",
+			authDomain: "reproductor-e1b8c.firebaseapp.com",
+			databaseURL: "https://reproductor-e1b8c.firebaseio.com",
+			projectId: "reproductor-e1b8c",
+			storageBucket: "reproductor-e1b8c.appspot.com",
+			messagingSenderId: "395116635271"
+		};
+		firebase.initializeApp(config);
+
+		var messaging = firebase.messaging();
+		messaging.usePublicVapidKey('BEKI_Nf3BerqCpFCZt12nqjow2e8Z92cJL62OCsfcXFnwezaQrs-DfdxVP8J9RRG3M0PSyzk2aif8ydn9xOy8i4');
+		messaging.requestPermission().then(function () {
+			console.log('Permiso de Notificacion Concedido');
+			messaging.getToken().then(function (currentToken) {
+				if (currentToken) {
+					console.log(currentToken);
+					//Se debe Guardar el token
+				} else {
+					console.log('Instancia de Token no disponible. Debe tener permiso para generar uno');
+				}
+			}).catch(function (err) {
+				console.log('Ocurrio un error mientras se recibia el token', err);
+				showToken('Error en la instancia del Token', err);
+				setTokenSentToServer(false);
+			});
+		}).catch(function (err) {
+			console.log("No tiene permiso para notificar ", err);
+		});
+
+		messaging.onMessage(function (payload) {
+			appendMessage(payload);
+		});
+
+		function appendMessage(payload) {
+			console.log(payload);
+			var notification = '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+			notification += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+			notification += '<span aria-hidden="true">&times;</span>';
+			notification += '</button>';
+			notification += '<img src"' + payload.notification.icon + '" width="25"/><strong>' + payload.notification.title + '</strong>'
+				+ payload.notification.body + '.';
+			notification += '</div>';
+			$("#messages").html(notification);
+		}
+	</script>
+</body>
+
+</html>
