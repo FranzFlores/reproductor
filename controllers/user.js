@@ -19,7 +19,7 @@ UserController.viewSingIn = (req,res)=>{
    
     res.render('auth/signin');
 };
-
+//mètodo para presentar el perfil del user(usuario)
 UserController.viewProfile = (req,res)=>{
   Artist.findAll({
     where: { status: true }
@@ -35,7 +35,7 @@ UserController.logout = (req,res)=>{
       req.logOut();
       res.redirect('/');
 };
-
+//mètodo que actualiza la contraseña en la base de datos, requiere el external id por parametro 
 UserController.updatePassword = (req,res)=>{
    var external_id = req.params.external_id;
    var newPassword = req.body.newPassword;
@@ -66,7 +66,7 @@ UserController.updatePassword = (req,res)=>{
       res.status(500).send({message:'Error en la peticion'});
   });
 };
-
+//mètodo que actualiza al usurio en la base de datos
 
 UserController.updateUser = (req,res)=>{
     User.update({
@@ -88,7 +88,7 @@ UserController.updateUser = (req,res)=>{
         res.status(500).send({message:'Error en la peticion'});
     });
 };
-
+//mètodo que actualiza la foto del user(usuario) en la base de datos
 UserController.uploadImage = (req,res)=>{
     var file_name = "Imagen no encontrada";
     if (req.files) {
@@ -119,7 +119,7 @@ UserController.uploadImage = (req,res)=>{
       res.status(200).send({message:"No se ha podido subir ninguna imagen"});
     }
 };
-
+//mètodo para presentar la imagen del user(usuario) con una ruta
 UserController.getImageFile = (req,res)=>{
   var imageFile = req.params.imageFile;
   var path_file = './uploads/users/'+ imageFile

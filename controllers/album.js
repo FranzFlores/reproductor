@@ -1,3 +1,4 @@
+//controlador de la tabla album en la base de datos 
 'use strict'
 
 const { Album, Artist, Song } = require('../database');
@@ -5,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 
 const AlbumController = {};
-
+// mètodo que sirve para guardar albunes, requiere  que se pase el id del artista
 AlbumController.saveAlbum = (req, res) => {
   Album.create({
     title: req.body.title,
@@ -25,7 +26,7 @@ AlbumController.saveAlbum = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+// mètodo que en lista todos los albunes registrados 
 AlbumController.getAlbums = (req, res) => {
   Album.findAll({
     where: { status: true },
@@ -38,7 +39,7 @@ AlbumController.getAlbums = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo para obtener un solo registro de la tabla album en la base de datos, requiere el external id por parametro
 AlbumController.getAlbum = (req, res) => {
   Album.findOne({
     where: { external_id: req.params.external },
@@ -49,7 +50,7 @@ AlbumController.getAlbum = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo que actualiza los albunes en la base de datos, requiere el external id por parametro 
 AlbumController.updateAlbum = (req, res) => {
   Album.update({
     title: req.body.title,
@@ -68,7 +69,7 @@ AlbumController.updateAlbum = (req, res) => {
       res.status(500).send({ message: 'Error en la peticion' });
     });
 };
-
+//mètodo para dar de baja los albunes en la base de datos, requiere el external id por parametro 
 AlbumController.deleteAlbum = (req, res) => {
   //Actualizar Album
   Album.update({
@@ -109,7 +110,7 @@ AlbumController.deleteAlbum = (req, res) => {
       res.status(500).send({ message: 'Error en la peticion' });
     });
 };
-
+//mètodo para subir fotos en la tabla album
 
 AlbumController.uploadImage = (req, res) => {
 
@@ -145,7 +146,7 @@ AlbumController.uploadImage = (req, res) => {
     res.redirect('/profile');
   }
 };
-
+//mètodo para presentar la imagen de album con una ruta
 AlbumController.getImageFile = (req, res) => {
   var imageFile = req.params.imageFile;
   var path_file = './uploads/albums/' + imageFile

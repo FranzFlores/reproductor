@@ -1,3 +1,4 @@
+//controlador de la tabla song(cancion) en la base de datos 
 'use strict'
 const { Album, Song } = require('../database');
 var fs = require('fs');
@@ -23,7 +24,7 @@ var options = {
   })
 };
 
-
+// mètodo que sirve para guardar song(cancion), requiere  que se pase el id del album
 SongController.saveSong = (req, res) => {
   Song.create({
     number: req.body.number,
@@ -52,7 +53,7 @@ SongController.saveSong = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo que actualiza los listeners en la base de datos, requiere el external id por parametro 
 SongController.updateListeners = (req, res) => {
   Song.findOne({
     where: { external_id: req.params.external }
@@ -75,7 +76,7 @@ SongController.updateListeners = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo para obtener un solo registro de la tabla song(cancion) en la base de datos, requiere el external id por parametro
 SongController.getSong = (req, res) => {
   Song.findOne({
     where: { external_id: req.params.external },
@@ -86,8 +87,7 @@ SongController.getSong = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
-
+// mètodo que en lista todos los song(canciones) registrados 
 SongController.getSongs = (req, res) => {
   Song.findAll({
     where: { status: true }
@@ -97,7 +97,7 @@ SongController.getSongs = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo que actualiza los song(canciones) en la base de datos, requiere el external id por parametro 
 SongController.updateSong = (req, res) => {
   Song.update({
     title: req.body.title,
@@ -115,7 +115,7 @@ SongController.updateSong = (req, res) => {
       res.status(500).send({ message: 'Error en la peticion' });
     });
 };
-
+//mètodo para dar de baja una song(cancion) en la base de datos, requiere el external id por parametro 
 SongController.deleteSong = (req, res) => {
   Song.update({
     status: false
@@ -135,7 +135,7 @@ SongController.deleteSong = (req, res) => {
 
 
 
-
+//mètodo para subir el fichero de audio en la tabla song(cancion)
 SongController.uploadFile = (req, res) => {
   var file_name = "no subido...";
 
@@ -169,7 +169,7 @@ SongController.uploadFile = (req, res) => {
     res.redirect('/profile');
   }
 };
-
+//mètodo para presentar el fichero de song(cancion) con una ruta
 
 SongController.getSongFile = (req, res) => {
   var songFile = req.params.songFile;

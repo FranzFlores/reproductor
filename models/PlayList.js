@@ -1,3 +1,4 @@
+//El fichero contiene la estructura de la tabla Playlist en la base de datos 
 module.exports = (sequelize, type) => {
     return sequelize.define('playList', {
       id:{

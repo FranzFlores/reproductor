@@ -1,3 +1,4 @@
+//El fichero contiene la estructura de la tabla User(Usuario) en la base de datos 
 'use strict'
 module.exports = (sequelize, type) => {
     return sequelize.define('user', {

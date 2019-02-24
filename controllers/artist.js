@@ -1,9 +1,11 @@
+//controlador de la tabla artist(artista) en la base de datos 
 'use strict'
 const { Artist, Album, Song } = require('../database');
 var fs = require('fs');
 var path = require('path');
 const ArtistController = {};
 
+ //mètodo para obtener un solo registro de la tabla artist(artista) en la base de datos, requiere el external id por parametro
 ArtistController.getArtist = (req, res) => {
   Artist.findOne({
     where: { external_id: req.params.external },
@@ -14,7 +16,7 @@ ArtistController.getArtist = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+// mètodo que sirve para guardar artist(artista)
 ArtistController.saveArtist = (req, res) => {
   Artist.create({
     name: req.body.name,
@@ -32,7 +34,7 @@ ArtistController.saveArtist = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+// mètodo que en lista todos los artist(artista) registrados
 ArtistController.getArtists = (req, res) => {
   Artist.findAll({
     where: { status: true },
@@ -45,7 +47,7 @@ ArtistController.getArtists = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo que actualiza los artist(artista) en la base de datos, requiere el external id por parametro
 ArtistController.updateArtist = (req, res) => {
   Artist.update({
     name: req.body.name,
@@ -64,9 +66,9 @@ ArtistController.updateArtist = (req, res) => {
 };
 
 
-
+//mètodo para dar de baja los artist(artista) en la base de datos, requiere el external id por parametro 
 ArtistController.deleteArtist = (req, res) => {
-
+//Actualizar artist(artista)
   Artist.update({ status: false }, { where: { external_id: req.params.external } })
     .then((result) => {
       if (result == 0) {
@@ -77,6 +79,7 @@ ArtistController.deleteArtist = (req, res) => {
           list.forEach(element => {
             ids.push(element.id);
           });
+          
           Album.update({ status: false }, { where: { id: ids } })
             .then((result) => {
               if (result == 0) {
@@ -118,6 +121,7 @@ ArtistController.deleteArtist = (req, res) => {
       res.status(500).send({ message: 'Error en la peticion' });
     });
 };
+//mètodo para subir fotos en la tabla artist(artista)
 
 ArtistController.uploadImage = (req, res) => {
 
@@ -154,7 +158,7 @@ ArtistController.uploadImage = (req, res) => {
   }
 
 };
-
+//mètodo para presentar la imagen de artist(artista) con una ruta
 ArtistController.getImageFile = (req, res) => {
   var path_file = './uploads/artists/' + req.params.imageFile;
 

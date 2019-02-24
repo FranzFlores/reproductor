@@ -1,9 +1,10 @@
+//controlador de la tabla playlist en la base de datos 
 'use strict'
 const {PlayList, User,Song } = require('../database');
 var fs = require('fs');
 var path = require('path');
 var PlayListController = {};
-
+// mètodo que sirve para guardar playlist, requiere  el id del usuario por parametro
 PlayListController.savePlayList = (req, res) => {
   PlayList.create({
     title: req.body.title,
@@ -22,7 +23,7 @@ PlayListController.savePlayList = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo para gregar unacancion en la playlist
 PlayListController.addSongtoPlayList = (req, res) => {
   PlayList.findOne({
     where: { id: req.body.playlist }
@@ -35,7 +36,7 @@ PlayListController.addSongtoPlayList = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion 2' });
   });
 };
-
+//mètodo para obtener un solo registro de la tabla playlist en la base de datos, requiere el external id por parametro
 PlayListController.getPlayList = (req, res) => {
   PlayList.findOne({
     where: { external_id: req.params.external }
@@ -45,7 +46,7 @@ PlayListController.getPlayList = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo para en listar todos las playlist
 PlayListController.getPlayListAdmin = (req, res) => {
   User.findOne({
     where: { roleId: 1 }
@@ -63,11 +64,11 @@ PlayListController.getPlayListAdmin = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-
+//mètodo para crear un ranking con las canciones mas escuchadas
 PlayListController.createPlaylistRanking = (req,res)=>{
   Song.findAll({where: {status: true},
     order: [['listeners', 'DESC']],
-    limit : 25
+    limit : 25 
   }).then((list) => {
     PlayList.findOne({
       where: { external_id: '508104d0-cf74-4a9d-ad7d-42a0754f3ae0' }
@@ -85,7 +86,7 @@ PlayListController.createPlaylistRanking = (req,res)=>{
   });
 };
 
-
+//mètodo paera en listar las canciones del rankings
 
 PlayListController.getListSongs = (req, res) => {
   PlayList.findOne({
@@ -101,7 +102,7 @@ PlayListController.getListSongs = (req, res) => {
        res.status(500).send({ message: 'Error en la peticion' });
      });
 };
-
+// mètodo que en lista todos las playlist registradas
 
   PlayListController.getPlayLists = (req, res) => {
     PlayList.findAll({
@@ -116,7 +117,7 @@ PlayListController.getListSongs = (req, res) => {
     });
   };
 
-
+//mètodo para subir fotos en la tabla playlist
 
   PlayListController.uploadImage = (req, res) => {
     var file_name = "Imagen no encontrada";
@@ -151,7 +152,7 @@ PlayListController.getListSongs = (req, res) => {
       res.redirect('/profile');
     }
   };
-
+//mètodo para presentar la imagen de la playlist con una ruta
   PlayListController.getImageFile = (req, res) => {
     var imageFile = req.params.imageFile;
     var path_file = './uploads/playLists/' + imageFile;

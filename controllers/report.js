@@ -1,3 +1,4 @@
+//controlador de la tabla report en la base de datos 
 'use strict'
 var pdf = require('html-pdf');
 const { PlayList } = require('../database');
@@ -6,7 +7,7 @@ var path = require('path');
 
 
 const ReportController = {};
-
+//mètodo para generar un archivo pdf
 ReportController.generatePdf = (req, res) => {
     PlayList.findOne({
         where: { title: 'Las 25 Canciones más escuchadas' }
@@ -49,7 +50,7 @@ ReportController.generatePdf = (req, res) => {
         console.log(err);
     });
 };
-
+//mètodo para presentar el archivo pdf con una ruta
 ReportController.getPdfFile = (req, res) => {
     var path_file = '/Users/franzandresflores/Desktop/reproductor/report.pdf';
     fs.exists(path_file, function (exists) {
