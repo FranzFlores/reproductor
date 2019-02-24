@@ -42,7 +42,10 @@ AlbumController.getAlbums = (req, res) => {
 AlbumController.getAlbum = (req, res) => {
   Album.findOne({
     where: { external_id: req.params.external },
-    include: [{ model: Artist }, { model: Song }]
+    include: [{ model: Artist }, { model: Song , where: { status: true }}],
+    order: [
+      [Song, 'number', 'ASC']
+    ]
   }).then((album) => {
     res.status(200).send(album);
   }).catch((err) => {

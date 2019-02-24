@@ -22,11 +22,44 @@
 	justify-content: center;
 }
 
+#listArtist{
+	max-height: 580px;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.artist,.listSong,.song{
+	background-color: #2a2b30;
+	border: white;
+}
+
+.artist:hover{
+color: #2a2b30 !important;
+background: white;
+}
+
+.artistEdit,.albumlist,.listSong{
+	max-height: 528px;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+
+
+.table-wrapper-scroll-y {
+	display: block;
+	max-height: 440px !important;
+	overflow-y: auto;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
+
 .btn1,
 .btn2 {
 	font: 25px verdana;
 	color: #FFFFF0;
-	border: 4px solid:#778899;
+	border: 4px solid #778899;
 	padding: 10px 20px 10px 20px;
 	border-radius: 5px;
 }
@@ -38,8 +71,13 @@
 	text-decoration: none;
 }
 
-#lista,
-.body {
+.body{
+	max-height: 500px;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+#lista{
 	max-height: 800px;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
@@ -52,14 +90,14 @@
 	display: inline !important;
 }
 
-
+/* Player */
 .player {
 	position: fixed;
 	bottom: 0;
 	z-index: 100;
 	left: 400px;
 	padding: 0 9px;
-	background: #000;
+	background: #2a2b30;
 	line-height: 3.5;
 }
 
@@ -68,7 +106,6 @@
 	color: #FFF;
 	bottom: 70px;
 	left: 590px;
-
 }
 
 .playerImage {
@@ -77,7 +114,7 @@
 	z-index: 130;
 	left: 420px;
 }
-
+/* Player */
 .icon {
 	font-family: 'feather';
 	font-weight: normal;

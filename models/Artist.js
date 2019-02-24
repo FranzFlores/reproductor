@@ -1,3 +1,4 @@
+//El fichero contiene la estructura de la tabla artist(Artista) en la Base de Datos
 module.exports = (sequelize, type) => {
   return sequelize.define('artist', {
     id:{

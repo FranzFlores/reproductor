@@ -24,7 +24,9 @@
 	<div id="messages"></div>
 	{{>message}}
 	{{{ body }}}
-
+	{{#if account}}
+	{{>player}}
+	{{/if}}
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -313,7 +315,7 @@
 									var html2 = "";
 									var html3 = "";
 									$.each(data, function (i, item) {
-										html += `<a data-external="` + item.external_id + `" href="#" class="list-group-item list-group-item-action artist">
+										html += `<a data-external="` + item.external_id + `" href="#" class="list-group-item list-group-item-action text-white artist">
 													<img class="rounded-circle" src="http://localhost:4000/api/get-image-artist/`+ item.image + `" height="30px" width="30px" alt="">&nbsp;` + item.name + `</a>`;
 										html1 += "<option value='" + item.id + "'>" + item.name + "</option>";
 										html2 += "<option value='" + item.external_id + "'>" + item.name + "</option>";
@@ -569,7 +571,7 @@
 																type: 'POST',
 																url: url1,
 																success: function (data, textStatus, jqXHR) {
-																	console.log(data);
+																	
 																}, error: function (jqXHR, textStatus, errorThrown) {
 																	console.log(errorThrown);
 																}
@@ -616,7 +618,7 @@
 										html += "<option value='" + item.external_id + "'>" + item.title + "</option>";
 										html1 += `
 											{{#ifEquals user.role 'Administrador'}}
-												<li class="list-group-item"><p class="h3 titleSong">` + item.title + `</p>
+												<li class="list-group-item song"><p class="h3 titleSong">` + item.title + `</p>
 												<div class="d-flex">
 												  <button data-external="`+ item.external_id + `" type="button" class="btn btn-primary ml-auto play"><i class="fas fa-play"></i></button>
 												  <button type="button" data-toggle="modal" data-target="#id`+ item.external_id + `" class="btn btn-success"><i class="far fa-edit"></i></button>
@@ -624,8 +626,8 @@
 												</div>
 												</li>
 											{{else}}
-												<li class="list-group-item play" data-external="`+ item.external_id + `">
-													<h3 class="text-dark">`+ item.title + `</h3>
+												<li class="border border-white list-group-item play song" data-external="`+ item.external_id + `">
+													<h3 class="text-white">`+ item.title + `</h3>
 												</li>
 											{{/ifEquals}}	
 
@@ -731,9 +733,6 @@
 						gridWrapper.innerHTML = `{{>playlist/explore}}`;
 					}
 
-
-
-
 					if (item.localeCompare('Explorar') == 0) {
 						$(document).ready(function () {
 							var url = "http://localhost:4000/api/playlistAdmin";
@@ -764,12 +763,11 @@
 											dataType: 'json',
 											url: url,
 											success: function (data, textStatus, jqXHR) {
-
 												var html = "";
 												gridWrapper.innerHTML = `{{>song/listSong}}`;
 												$.each(data, function (i, item) {
-													html += '<li class="list-group-item text-dark click" data-external="' + item.external_id + '">';
-													html += '<h3 href="#" class="text-dark">' + item.title + '</h3>';
+													html += '<li class="border border-white list-group-item text-dark song click" data-external="' + item.external_id + '">';
+													html += '<h3 class="text-white">' + item.title + '</h3>';
 													html += '</li>';
 												});
 												$(".listSong").html(html);
@@ -784,7 +782,7 @@
 															console.log(data);
 															$(".playerImage").attr('src', 'http://localhost:4000/api/get-image-album/' + data.album.image);
 															$(".titlePlayer").text(data.title);
-															$(".playerSong").attr('src', 'http://localhost:4000/api/get-song-file/' + data.file);
+															$("#player").attr('src', 'http://localhost:4000/api/get-song-file/' + data.file);
 															var url1 = "http://localhost:4000/api/listen/" + data.external_id;
 															$.ajax({
 																type: 'POST',
@@ -850,8 +848,8 @@
 												var html = "";
 												gridWrapper.innerHTML = `{{>song/listSong}}`;
 												$.each(data, function (i, item) {
-													html += '<li class="list-group-item text-dark click">';
-													html += '<h3 class="click text-dark" data-external=' + item.external_id + '>' + item.title + '</h3>';
+													html += '<li class="border border-white list-group-item text-dark song click" data-external="' + item.external_id + '">';
+													html += '<h3 class="text-white">' + item.title + '</h3>';
 													html += '</li>';
 												});
 												$(".listSong").html(html);
@@ -866,7 +864,7 @@
 														success: function (data, textStatus, jqXHR) {
 															$(".playerImage").attr('src', 'http://localhost:4000/api/get-image-album/' + data.album.image);
 															$(".titlePlayer").text(data.title);
-															$(".playerSong").attr('src', 'http://localhost:4000/api/get-song-file/' + data.file);
+															$("#player").attr('src', 'http://localhost:4000/api/get-song-file/' + data.file);
 															var url1 = "http://localhost:4000/api/listen/" + data.external_id;
 															$.ajax({
 																type: 'POST',

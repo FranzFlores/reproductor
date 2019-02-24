@@ -16,6 +16,7 @@ ArtistController.getArtist = (req, res) => {
 };
 
 ArtistController.saveArtist = (req, res) => {
+  console.log(req.body);
   Artist.create({
     name: req.body.name,
     description: req.body.description,
