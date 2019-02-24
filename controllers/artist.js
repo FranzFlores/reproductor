@@ -18,6 +18,7 @@ ArtistController.getArtist = (req, res) => {
 };
 // mètodo que sirve para guardar artist(artista)
 ArtistController.saveArtist = (req, res) => {
+  console.log(req.body);
   Artist.create({
     name: req.body.name,
     description: req.body.description,
@@ -66,7 +67,7 @@ ArtistController.updateArtist = (req, res) => {
 };
 
 
-//mètodo para dar de baja los artist(artista) en la base de datos, requiere el external id por parametro 
+//mètodo para dar de baja los artist(artista) en la base de datos, requiere el external id por parametro
 ArtistController.deleteArtist = (req, res) => {
 //Actualizar artist(artista)
   Artist.update({ status: false }, { where: { external_id: req.params.external } })
@@ -79,7 +80,7 @@ ArtistController.deleteArtist = (req, res) => {
           list.forEach(element => {
             ids.push(element.id);
           });
-          
+
           Album.update({ status: false }, { where: { id: ids } })
             .then((result) => {
               if (result == 0) {

@@ -1,4 +1,4 @@
-//controlador de la tabla album en la base de datos 
+//controlador de la tabla album en la base de datos
 'use strict'
 
 const { Album, Artist, Song } = require('../database');
@@ -26,7 +26,7 @@ AlbumController.saveAlbum = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-// mètodo que en lista todos los albunes registrados 
+// mètodo que en lista todos los albunes registrados
 AlbumController.getAlbums = (req, res) => {
   Album.findAll({
     where: { status: true },
@@ -43,14 +43,17 @@ AlbumController.getAlbums = (req, res) => {
 AlbumController.getAlbum = (req, res) => {
   Album.findOne({
     where: { external_id: req.params.external },
-    include: [{ model: Artist }, { model: Song }]
+    include: [{ model: Artist }, { model: Song , where: { status: true }}],
+    order: [
+      [Song, 'number', 'ASC']
+    ]
   }).then((album) => {
     res.status(200).send(album);
   }).catch((err) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-//mètodo que actualiza los albunes en la base de datos, requiere el external id por parametro 
+//mètodo que actualiza los albunes en la base de datos, requiere el external id por parametro
 AlbumController.updateAlbum = (req, res) => {
   Album.update({
     title: req.body.title,
@@ -69,7 +72,7 @@ AlbumController.updateAlbum = (req, res) => {
       res.status(500).send({ message: 'Error en la peticion' });
     });
 };
-//mètodo para dar de baja los albunes en la base de datos, requiere el external id por parametro 
+//mètodo para dar de baja los albunes en la base de datos, requiere el external id por parametro
 AlbumController.deleteAlbum = (req, res) => {
   //Actualizar Album
   Album.update({

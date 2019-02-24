@@ -1,4 +1,4 @@
-//El fichero contiene la estructura de la tabla Album en la base de datos 
+//El fichero contiene la estructura de la tabla Album en la base de datos
 module.exports = (sequelize, type) => {
   return sequelize.define('album', {
       id:{
