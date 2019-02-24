@@ -1,4 +1,4 @@
-//controlador de la tabla artist(artista) en la base de datos 
+//controlador de la tabla artist(artista) en la base de datos
 'use strict'
 const { Artist, Album, Song } = require('../database');
 var fs = require('fs');
