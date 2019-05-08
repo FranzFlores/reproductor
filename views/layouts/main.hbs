@@ -625,11 +625,6 @@
 												  <button type="button" data-toggle="modal" data-target="#btn`+ item.external_id + `" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i></button>
 												</div>
 												</li>
-											{{else}}
-												<li class="border border-white list-group-item play song" data-external="`+ item.external_id + `">
-													<h3 class="text-white">`+ item.title + `</h3>
-												</li>
-											{{/ifEquals}}	
 
 												<div class="modal fade" id="btn`+ item.external_id + `" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 												<div class="modal-dialog" role="document">
@@ -677,7 +672,12 @@
 													</div>
 													</div>
 												</div>
-												</div>`;
+												</div>
+											{{else}}
+												<li class="border border-white list-group-item play song" data-external="`+ item.external_id + `">
+													<h3 class="text-white">`+ item.title + `</h3>
+												</li>
+											{{/ifEquals}}	`;
 									});
 									$(".listSong").html(html1);
 									$('.play').click(function (e) {
@@ -911,13 +911,12 @@
 											success: function (data, textStatus, jqXHR) {
 												var html1 = "";
 												$.each(data, function (i, item) {
-													html1 += `<li class="list-group-item">` + item.title + `
+													html1 += `<li class="list-group-item text-dark h3">` + item.title + `
 															   		<button data-external="`+ item.id + `" type="button" id="add" data-add="true" class="btn btn-primary float-right add">Agregar</button>
 												            </li>`;
 												});
 												$('#playlist').val();
 												$("#listAdd").html(html1);
-
 												$(".add").click(function (e) {
 													var external = $(this).attr('data-external');
 

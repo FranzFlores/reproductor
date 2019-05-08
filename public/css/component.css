@@ -33,12 +33,12 @@
 	border: white;
 }
 
-.artist:hover{
+.artist:hover,.artist:active{
 color: #2a2b30 !important;
 background: white;
 }
 
-.artistEdit,.albumlist,.listSong{
+.artistEdit,.albumlist,.listSong,#listAdd{
 	max-height: 528px;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;

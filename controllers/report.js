@@ -14,6 +14,10 @@ ReportController.generatePdf = (req, res) => {
     }).then((playlist) => {
         playlist.getSongs()
             .then((list) => {
+                //var aux = [];
+                list.sort(function (a, b) {
+                    return (b.listeners - a.listeners)
+                });
                 var content = `<h1>Las 25 canciones más escuchadas</h1>
                 <ol class="list-group list-group-flush listSong">`;
 

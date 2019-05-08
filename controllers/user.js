@@ -72,7 +72,7 @@ UserController.updateUser = (req,res)=>{
     User.update({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      user_name: req.body.user,
+      userName: req.body.user,
       email: req.body.email,
     },
     {where: {external_id:req.params.external}
