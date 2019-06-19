@@ -9,7 +9,7 @@ var md_upload = multipart({uploadDir: './uploads/songs'});
 
 
 
-router.get('/songs',isLoggedIn,songController.getSongs);
+router.get('/songs',songController.getSongs);
 router.get('/song/:external',isLoggedIn,songController.getSong);
 router.post('/saveSong',isLoggedIn,songController.saveSong);
 router.post('/updateSong/:external',isLoggedIn,songController.updateSong);

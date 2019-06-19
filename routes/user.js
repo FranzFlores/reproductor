@@ -37,5 +37,8 @@ router.post('/upload-image-user/:external', [md_upload,isLoggedIn],userControlle
 router.get('/get-image-user/:imageFile', userController.getImageFile);
 router.get('/logout',isLoggedIn,userController.logout);
 
+//Para la aplicacion movil
+router.post('/login',userController.login);
+
 module.exports = router;
 
