@@ -8,6 +8,7 @@ var exphbs = require('express-handlebars');
 var session = require('express-session');
 var flash = require('connect-flash');
 const passport = require('passport');
+const cors = require('cors');
 const { Role,User} = require('./database');
 
 //Inicializaciones
@@ -28,6 +29,7 @@ app.engine('hbs',exphbs({
 app.set('view engine','hbs');
 
 //Middlewares
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 

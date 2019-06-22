@@ -1,6 +1,6 @@
 //controlador de la tabla song(cancion) en la base de datos 
 'use strict'
-const { Album, Song } = require('../database');
+const { Album, Song,Artist } = require('../database');
 var fs = require('fs');
 var path = require('path');
 const request = require('request');
@@ -87,16 +87,21 @@ SongController.getSong = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
+
 // mètodo que en lista todos los song(canciones) registrados 
 SongController.getSongs = (req, res) => {
   Song.findAll({
-    where: { status: true }
+    where: { status: true },
+    order: ['title'],
+    include: [{ model: Album, attributes: ['image'] ,include: { model: Artist, attributes: ['name'] }}]
   }).then((list) => {
     res.status(200).send(list);
   }).catch((err) => {
+    console.log(err);
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
+
 //mètodo que actualiza los song(canciones) en la base de datos, requiere el external id por parametro 
 SongController.updateSong = (req, res) => {
   Song.update({
