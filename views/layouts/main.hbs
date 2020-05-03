@@ -35,6 +35,9 @@
 	<script src="js/main.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="js/jquery.validate.min.js"></script>
+	
+	{{!-- Script para validacion de Personas --}}
+	<script src="js/validate.js"></script>
 	<script>
 		/*---------------------Validación de los formularios Usuario------------------*/
 		$().ready(function () {
@@ -58,28 +61,6 @@
 					error: function (jqXHR, textStatus, errorThrown) {
 					}
 				});
-			});
-			//Registrar Usuario
-			$('#signup').validate({
-				rules: {
-					firstName: "required",
-					lastName: "required",
-					user: "required",
-					email: "required",
-					password: "required"
-				},
-				messages: {
-					email: "Campo Obligatorio",
-					password: "Campo Obligatorio",
-					firstName: "Campo Obligatorio",
-					lastName: "Campo Obligatorio",
-					user: "Campo Obligatorio",
-				},
-				errorElement: "span",
-				errorPlacement: function (error, element) {
-					error.addClass('text-danger');
-					error.insertAfter(element);
-				}
 			});
 			//Inicio Sesión
 			$('#signin').validate({
