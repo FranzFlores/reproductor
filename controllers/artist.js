@@ -1,11 +1,46 @@
-//controlador de la tabla artist(artista) en la base de datos
 'use strict'
-const { Artist, Album, Song } = require('../database');
 var fs = require('fs');
 var path = require('path');
+
+const { Artist, Album, Song } = require('../database');
 const ArtistController = {};
 
- //mètodo para obtener un solo registro de la tabla artist(artista) en la base de datos, requiere el external id por parametro
+/**
+ * @api {post} /artist/create Guarda información del artista 
+ * @apiName createArtist
+ * @apiGroup Artist
+ * @apiDescription El método guarda información del artista en la base de datos
+ * 
+ * @apiParam {String}           name              Nombre de artista 
+ * @apiParam {String}           description       Descripción del atista
+ * 
+ *  @apiParamExample {json} Request-Example:
+ *      {
+ *         name: "Nombre artista",
+ *         description:"Descripción artista"
+ *      }
+ * 
+ * @apiSuccess {flashNotification} pop up 'Se ha guardado correctamente el artista'
+ * 
+ */
+ArtistController.createArtist = (req, res) => {
+  Artist.create({
+    name: req.body.name,
+    description: req.body.description,
+    image: 'Zl_cki2bQYdlMjycBCZKlmkB.jpg'
+  }).then((artistStored) => {
+
+    if (artistStored) req.flash('success', 'Se ha guardado correctamente el artista');
+    else req.flash('message', 'No se pudo guardar el artista');
+
+    res.redirect('/profile');
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).send({ message: 'Error en la peticion' });
+  });
+};
+
+//mètodo para obtener un solo registro de la tabla artist(artista) en la base de datos, requiere el external id por parametro
 ArtistController.getArtist = (req, res) => {
   Artist.findOne({
     where: { external_id: req.params.external },
@@ -16,25 +51,7 @@ ArtistController.getArtist = (req, res) => {
     res.status(500).send({ message: 'Error en la peticion' });
   });
 };
-// mètodo que sirve para guardar artist(artista)
-ArtistController.saveArtist = (req, res) => {
-  console.log(req.body);
-  Artist.create({
-    name: req.body.name,
-    description: req.body.description,
-    image: 'Zl_cki2bQYdlMjycBCZKlmkB.jpg',
-    status: true
-  }).then((artistStored) => {
-    if (artistStored) {
-      req.flash('success', 'Se ha guardado correctamente el artista');
-    } else {
-      req.flash('message', 'No se pudo guardar el artista');
-    }
-    res.redirect('/profile');
-  }).catch((err) => {
-    res.status(500).send({ message: 'Error en la peticion' });
-  });
-};
+
 // mètodo que en lista todos los artist(artista) registrados
 ArtistController.getArtists = (req, res) => {
   Artist.findAll({
@@ -53,23 +70,24 @@ ArtistController.updateArtist = (req, res) => {
   Artist.update({
     name: req.body.name,
     description: req.body.description
-  }, {where: { external_id: req.params.external }
-    }).then((result) => {
-      if (result == 0) {
-        req.flash('message', "No se ha podido actualizar el artista");
-      } else {
-        req.flash('success', "Se ha actualizado el artista correctamente");
-      }
-      res.redirect('/profile');
-    }).catch((err) => {
-      res.status(500).send({ message: 'Error en la peticion' });
-    });
+  }, {
+    where: { external_id: req.params.external }
+  }).then((result) => {
+    if (result == 0) {
+      req.flash('message', "No se ha podido actualizar el artista");
+    } else {
+      req.flash('success', "Se ha actualizado el artista correctamente");
+    }
+    res.redirect('/profile');
+  }).catch((err) => {
+    res.status(500).send({ message: 'Error en la peticion' });
+  });
 };
 
 
 //mètodo para dar de baja los artist(artista) en la base de datos, requiere el external id por parametro
 ArtistController.deleteArtist = (req, res) => {
-//Actualizar artist(artista)
+  //Actualizar artist(artista)
   Artist.update({ status: false }, { where: { external_id: req.params.external } })
     .then((result) => {
       if (result == 0) {
@@ -90,16 +108,6 @@ ArtistController.deleteArtist = (req, res) => {
                 for (var i = 0; i < ids.length; i++) {
 
                   Song.findAll({ where: { albumId: ids[i] } })
-                  .then((list) => {
-                    var idsongs = [];
-                    list.forEach(song => {
-                      idsongs.push(song.id);
-                    });
-                    Song.update({ status: false }, { where: { id: idsongs } });
-                  })
-
-                  if (i == (ids.length-1)) {
-                    Song.findAll({ where: { albumId: ids[i] } })
                     .then((list) => {
                       var idsongs = [];
                       list.forEach(song => {
@@ -107,6 +115,16 @@ ArtistController.deleteArtist = (req, res) => {
                       });
                       Song.update({ status: false }, { where: { id: idsongs } });
                     })
+
+                  if (i == (ids.length - 1)) {
+                    Song.findAll({ where: { albumId: ids[i] } })
+                      .then((list) => {
+                        var idsongs = [];
+                        list.forEach(song => {
+                          idsongs.push(song.id);
+                        });
+                        Song.update({ status: false }, { where: { id: idsongs } });
+                      })
                     req.flash('success', 'Se ha elimanado correctamente el artista');
                     res.redirect('/profile');
                   }

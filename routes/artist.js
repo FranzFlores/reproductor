@@ -7,9 +7,9 @@ const { isLoggedIn } = require('../lib/auth');
 var multipart = require('connect-multiparty');
 var md_upload = multipart({uploadDir: './uploads/artists'});
 
+router.post('/create',isLoggedIn,artistController.createArtist);
 router.get('/artists',artistController.getArtists);
 router.get('/artist/:external',isLoggedIn,artistController.getArtist);
-router.post('/saveArtist',isLoggedIn,artistController.saveArtist);
 router.post('/updateArtist/:external',isLoggedIn,artistController.updateArtist);
 router.post('/deleteArtist/:external',isLoggedIn,artistController.deleteArtist);
 router.post('/upload-image-artist',[md_upload,isLoggedIn],artistController.uploadImage);
