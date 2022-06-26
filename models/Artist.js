@@ -1,18 +1,17 @@
-//El fichero contiene la estructura de la tabla Artist(artista) en la base de datos 
 module.exports = (sequelize, type) => {
   return sequelize.define('artist', {
-    id:{
+    id: {
       type: type.INTEGER,
       primaryKey: true,
-      autoIncrement:true
+      autoIncrement: true
     },
-    name:type.STRING,
-    description: type.STRING,
-    image: type.STRING,
-    status: type.BOOLEAN,
+    name: { type: type.STRING, allowNull: false },
+    description: { type: type.STRING, allowNull: false },
+    image: { type: type.STRING, allowNull: false },
+    status: { type: type.BOOLEAN, defaultValue: true },
     external_id: { type: type.STRING, defaultValue: type.UUIDV4 }
-    },{
-      createdAt:'date_create',
-      updatedAt:'date_update'
-    });
+  }, {
+    createdAt: 'date_create',
+    updatedAt: 'date_update'
+  });
 }

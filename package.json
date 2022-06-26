@@ -2,6 +2,10 @@
   "name": "reproductor",
   "version": "1.0.0",
   "description": "Reproductor de Musica Web",
+  "apidoc":{
+    "title": "Reproductor Musical",
+    "url": "http://localhost:3000/api"
+  },
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
@@ -25,7 +29,6 @@
     "connect-flash": "^0.1.1",
     "connect-multiparty": "^2.2.0",
     "cookie-parser": "^1.4.3",
-    "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
@@ -38,7 +41,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "request": "^2.88.0",
-    "sequelize": "^4.42.0"
+    "sequelize": "^5.21.7"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"

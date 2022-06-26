@@ -1,9 +1,12 @@
 'use strict'
-const { User, Artist } = require('../database');
 var fs = require('fs');
 var path = require('path');
+
+const { User, Artist } = require('../database');
 const helpers = require('../lib/helpers');
+
 const UserController = {};
+
 
 UserController.viewIndex = (req, res) => {
   res.render('index');
@@ -19,6 +22,7 @@ UserController.viewSingIn = (req, res) => {
 
   res.render('auth/signin');
 };
+
 //mètodo para presentar el perfil del user(usuario)
 UserController.viewProfile = (req, res) => {
   Artist.findAll({
@@ -35,6 +39,7 @@ UserController.logout = (req, res) => {
   req.logOut();
   res.redirect('/');
 };
+
 //mètodo que actualiza la contraseña en la base de datos, requiere el external id por parametro 
 UserController.updatePassword = (req, res) => {
   var external_id = req.params.external_id;
@@ -142,12 +147,12 @@ UserController.login = (req, res) => {
       if (!user) res.status(404).send('Usuario no existe');
       else {
         if (helpers.matchPassword(req.body.password, user.password)) {
-          if(req.body.getHash){
+          if (req.body.getHash) {
 
-          }else{
+          } else {
             res.status(200).send(user);
           }
-        }else{
+        } else {
           res.status(404).send('Contraseña Incorrecta');
         }
       }
