@@ -2,7 +2,7 @@
   "name": "reproductor",
   "version": "1.0.0",
   "description": "Reproductor de Musica Web",
-  "apidoc":{
+  "apidoc": {
     "title": "Reproductor Musical",
     "url": "http://localhost:3000/api"
   },
@@ -30,9 +30,9 @@
     "connect-multiparty": "^2.2.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
+    "express-handlebars": "^6.0.6",
     "express-session": "^1.15.6",
-    "html-pdf": "^2.2.0",
+    "html-pdf": "^3.0.1",
     "http-errors": "^1.7.1",
     "jwt-simple": "^0.5.6",
     "moment": "^2.24.0",
@@ -44,7 +44,7 @@
     "sequelize": "^5.21.7"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^2.0.18"
   },
   "directories": {
     "lib": "lib"
